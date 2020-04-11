@@ -204,6 +204,11 @@ ChiakiControllerState Controller::GetState()
 	if(!controller)
 		return state;
 
+    SDL_Joystick *joystick = SDL_GameControllerGetJoystick(controller);
+    if (SDL_JoystickGetProduct(joystick) == 1476) {
+        state.buttons |= SDL_JoystickGetButton(joystick, 15) ? CHIAKI_CONTROLLER_BUTTON_TOUCHPAD : 0;
+    }
+
 	state.buttons |= SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_A) ? CHIAKI_CONTROLLER_BUTTON_CROSS : 0;
 	state.buttons |= SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_B) ? CHIAKI_CONTROLLER_BUTTON_MOON : 0;
 	state.buttons |= SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_X) ? CHIAKI_CONTROLLER_BUTTON_BOX : 0;
