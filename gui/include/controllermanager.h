@@ -79,6 +79,8 @@ class Controller : public QObject
 
 #ifdef CHIAKI_GUI_ENABLE_SDL_GAMECONTROLLER
 		SDL_GameController *controller;
+        SDL_Joystick *joystick;
+        Uint16 joystickProduct;
 #endif
 
 	public:

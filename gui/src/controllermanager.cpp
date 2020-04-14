@@ -143,11 +143,15 @@ Controller::Controller(int device_id, ControllerManager *manager) : QObject(mana
 
 #ifdef CHIAKI_GUI_ENABLE_SDL_GAMECONTROLLER
 	controller = nullptr;
+	joystick = nullptr;
+
 	for(int i=0; i<SDL_NumJoysticks(); i++)
 	{
 		if(SDL_JoystickGetDeviceInstanceID(i) == device_id)
 		{
 			controller = SDL_GameControllerOpen(i);
+			joystick = SDL_GameControllerGetJoystick(controller);
+            joystickProduct = SDL_JoystickGetProduct(joystick);
 			break;
 		}
 	}
@@ -204,8 +208,7 @@ ChiakiControllerState Controller::GetState()
 	if(!controller)
 		return state;
 
-    SDL_Joystick *joystick = SDL_GameControllerGetJoystick(controller);
-    if (SDL_JoystickGetProduct(joystick) == 1476) {
+    if (joystickProduct == 1476) {
         state.buttons |= SDL_JoystickGetButton(joystick, 15) ? CHIAKI_CONTROLLER_BUTTON_TOUCHPAD : 0;
     }
 
